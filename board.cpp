@@ -26,10 +26,12 @@ u_int64_t Board::sumPieces() {
 }
 
 void Board::printBoard(Board cpu) {
+    std::cout << "--------\n";
     for (int i = 63; i >= 0; i--) {
+        std::cout << "|";
         if ((this->sumPieces() >> i) & 1 || (cpu.sumPieces() >> i) & 1) { std::cout << "1"; }
         else { std::cout << "0"; }
-        if (i % 8 == 0) { std::cout << "\n"; }
+        if (i % 8 == 0) { std::cout << "|\n"; }
     }
     return;
 }
