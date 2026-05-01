@@ -6,11 +6,12 @@
 #include <string>
 
 struct Board {
-    u_int64_t pawns, knights, rooks, bishops, queen, king;
+    uint64_t pawns, knights, rooks, bishops, queen, king;
     std::string color;
     int score;
+    int numPawns, numRooks, numKnights, numBishops, numQueens, numKings;
     Board(bool cpu);
-    u_int64_t sumPieces();
+    uint64_t sumPieces();
     void setColor(std::string choice);
 };
 

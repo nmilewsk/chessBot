@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cctype>
 #include <string>
+#include <vector>
 #include "board.h"
 
 Board::Board(bool cpu){
@@ -22,9 +23,18 @@ Board::Board(bool cpu){
         king = 1ULL << 59;
     }
     score = 0;
+    numPawns = 8;
+    numRooks = 2;
+    numBishops = 2;
+    numKnights = 2;
+    numQueens = 1;
+    numKings = 1;
+    for (int i = 0; i < 8; i++) {
+        pawnPositions.push_back(1ULL << (15 - i));
+    }
 }
 
-u_int64_t Board::sumPieces() {
+uint64_t Board::sumPieces() {
     return  pawns | rooks | knights | bishops | queen | king;
 }
 
