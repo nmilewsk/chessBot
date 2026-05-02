@@ -36,10 +36,10 @@ Board::Board(bool cpu){
         bishops = (1ULL << 61) | (1ULL << 58);
         bishopPositions.push_back(1ULL << 61);
         bishopPositions.push_back(1ULL << 58);
-        queen = 1ULL << 60;
-        queenPositions.push_back(1ULL << 60);
-        king = 1ULL << 59;
-        kingPositions.push_back(1ULL << 59);
+        queen = 1ULL << 59;
+        queenPositions.push_back(1ULL << 59);
+        king = 1ULL << 60;
+        kingPositions.push_back(1ULL << 60);
         top = true;
     }
     score = 0;
