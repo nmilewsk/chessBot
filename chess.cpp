@@ -32,14 +32,6 @@ int main() {
     Move moves = {human, computer};
     if (white) { printBoard(human, computer); }
     else { printBoard(computer, human); }
-
-    for (int i = 0; i < 8; i++) {
-        std::cout << "Pawn: " << human.pawnPositions[i] << "\n";
-        for (int j = 0; j < 2; j++) {
-            std::cout << j+1 << ". " << moves.intToTile(moves.pawnMoves(human.pawnPositions[i], human, computer)[j]) << "\n";
-        }
-    }
-
     return 0;
 }
 

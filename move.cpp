@@ -9,28 +9,24 @@
 Move::Move(Board& hum, Board& cpu) : human(hum), computer(cpu) { }
 
 uint64_t Move::tileToInt(char column, int row) {
-    int newColumn = column - 'a';
-    uint64_t spot = 2^(newColumn - (8*row));
+    int newColumn = column - 'a' + 1;
+    int test = (8*row) - newColumn;
+    uint64_t spot = 1ULL << test;
     return spot;
 }
 
 std::string Move::intToTile(uint64_t pos) {
     int tileNumber = 0;
-    std::cout << "IntoTile, Pos: " << pos << "\n";
     while (true) {
-        if ((1ULL << tileNumber) == pos) { std::cout << "Tile: 2^" << tileNumber << "\n";
-            break; }
+        if ((1ULL << tileNumber) == pos) { break; }
         else { tileNumber++; }
     }
     int column = tileNumber % 8;
-    std::cout << "Num column: " << column << "\n";
     char newColumn = column + 'a';
-    std::cout << "Alpha column: " << newColumn << "\n";
     tileNumber /= 8;
-    std::cout << "Tile Number: " << tileNumber << "\n";
     std::string algTile = "";
     algTile += newColumn;
-    algTile += tileNumber;
+    algTile += std::to_string(tileNumber + 1);
     return algTile;
 }
 

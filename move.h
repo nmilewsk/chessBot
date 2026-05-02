@@ -12,7 +12,7 @@ struct Move {
     Board computer;
     Move(Board& hum, Board& cpu);   
    
-    uint64_t tileToInt(char row, int column);
+    uint64_t tileToInt(char column, int row);
     std::string intToTile(uint64_t pos);
     std::vector<uint64_t> pawnMoves(uint64_t pos, Board& attacker, Board& defender);
     std::vector<uint64_t> rookMoves(uint64_t pos, Board& attacker, Board& defender);
