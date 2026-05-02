@@ -14,8 +14,19 @@ uint64_t Move::tileToInt(char column, int row) {
     return spot;
 }
 
+std::string Move::intToTile(uint64_t pos) {
+    return "\n";
+}
+
 std::vector<uint64_t> pawnMoves(uint64_t pos, Board& attacker, Board& defender) {
     std::vector<uint64_t> moves;
+    uint64_t defBoard = defender.sumPieces();
+    uint64_t wholeBoard = (defender.sumPieces() | attacker.sumPieces());
+    if (attacker.top) {
+        uint64_t front = (pos >> 8);
+        if (!(front & wholeBoard)) {  }
+
+    }
     return moves;
 }
 
