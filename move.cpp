@@ -71,6 +71,46 @@ std::vector<uint64_t> Move::rookMoves(uint64_t pos, Board& attacker, Board& defe
     std::vector<uint64_t> moves;
     uint64_t defBoard = defender.sumPieces();
     uint64_t wholeBoard = (defender.sumPieces() | attacker.sumPieces());
+    //forward
+    for (int i = 0; i < 8; i++) {
+        if (pos >= (1ULL << 56)) { break; }
+        uint64_t front = pos << (8*i);
+        if (front & wholeBoard) {
+            if (front & defBoard) { moves.push_back(front); }
+            else { break; }
+        }
+        else { moves.push_back(front); }
+    }
+    //backward
+    for (int i = 0; i < 8; i++) {
+        if (pos <= (1ULL << 7)) { break; }
+        uint64_t back = pos >> (8*i);
+        if (back & wholeBoard) {
+            if (back & defBoard) { moves.push_back(back); }
+            else { break; }
+        }
+        else { moves.push_back(back); }
+    }
+    //left
+    for (int i = 0; i < 63; i++) {
+        if ((pos == (1ULL << i)) && (i % 8 == 0)) { break; }
+        uint64_t left = pos << i;
+        if (left & wholeBoard) {
+            if (left & defBoard) { moves.push_back(left); }
+            else { break; }
+        }
+        else { moves.push_back(left); }
+    }
+    //right
+    for (int i = 0; i < 63; i++) {
+        if ((pos == (1ULL <<i)) && ((i + 1) % 8 == 0)) { break; }
+        uint64_t right = pos >> i;
+        if (right & wholeBoard) {
+            if (right & defBoard) { moves.push_back(right); }
+            else { break; }
+        }
+        else { moves.push_back(right); }
+    }
     return moves;
 }
 
@@ -78,6 +118,8 @@ std::vector<uint64_t> Move::knightMoves(uint64_t pos, Board& attacker, Board& de
     std::vector<uint64_t> moves;
     uint64_t defBoard = defender.sumPieces();
     uint64_t wholeBoard = (defender.sumPieces() | attacker.sumPieces());
+    //left
+    
     return moves;
 }
 
