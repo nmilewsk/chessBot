@@ -3,6 +3,7 @@
 #include <cctype>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "board.h"
 #include "move.h"
 
@@ -38,6 +39,19 @@ int main() {
 }
 
 void configSetUp(Move &toSet) {
+    std::ifstream magicRook("rook.txt");
+    std::ifstream magicBishop("bishop.txt");
+    std::string streamTemp;
+    for (int i = 0; i < 64; i++) { 
+        getline(magicRook, streamTemp);
+        rookMagics[i] = std::stoi(streamTemp, nullptr, 16);
+    }
+    for (int i = 0; i < 64; i++) { 
+        getline(magicBishop, streamTemp);
+        bishopMagics[i] = std::stoi(streamTemp, nullptr, 16);
+    }
+    magicRook.close();
+    magicBishop.close();
     return;
 }
 

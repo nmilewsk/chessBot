@@ -3,6 +3,7 @@
 #include <cctype>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "board.h"
 #include "move.h"
 
