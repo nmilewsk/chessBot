@@ -6,6 +6,16 @@
 #include "board.h"
 #include "move.h"
 
+uint64_t rookAttacks[64][4096];
+uint64_t rookMasks[64];
+uint64_t rookMagics[64];
+uint64_t bishopAttacks[64][4096];
+uint64_t bishopMasks[64];
+uint64_t bishopMagics[64];
+uint64_t knightAttacks[64];
+uint64_t kingAttacks[64];
+uint64_t pawnAttacks[2][64];
+
 Move::Move(Board& hum, Board& cpu) : human(hum), computer(cpu) { }
 
 uint64_t Move::tileToInt(char column, int row) {

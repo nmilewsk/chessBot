@@ -7,6 +7,16 @@
 #include <vector>
 #include "board.h"
 
+extern uint64_t rookAttacks[64][4096];
+extern uint64_t rookMasks[64];
+extern uint64_t rookMagics[64];
+extern uint64_t bishopAttacks[64][4096];
+extern uint64_t bishopMasks[64];
+extern uint64_t bishopMagics[64];
+extern uint64_t knightAttacks[64];
+extern uint64_t kingAttacks[64];
+extern uint64_t pawnAttacks[2][64];
+
 struct Move {
     Board human;
     Board computer;

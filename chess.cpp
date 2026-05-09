@@ -7,6 +7,7 @@
 #include "move.h"
 
 void printBoard(Board white, Board black);
+void configSetUp(Move &toSet);
 
 int main() {
     bool valid = false;
@@ -30,9 +31,14 @@ int main() {
     Board human = {false};
     Board computer = {true};
     Move moves = {human, computer};
+    configSetUp(moves);
     if (white) { printBoard(human, computer); }
     else { printBoard(computer, human); }
     return 0;
+}
+
+void configSetUp(Move &toSet) {
+    return;
 }
 
 void printBoard(Board white, Board black) {
