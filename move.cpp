@@ -8,6 +8,11 @@
 #include "board.h"
 #include "move.h"
 
+const uint64_t wrapLeftOne = 0xFEFEFEFEFEFEFEFE; //0s on right column
+const uint64_t wrapLeftTwo = 0xFCFCFCFCFCFCFCFC; //0s on right two columns
+const uint64_t wrapRightOne = 0x7F7F7F7F7F7F7F7F; //0s on left column
+const uint64_t wrapRightTwo = 0x3F3F3F3F3F3F3F3F; //0s on left two columns
+
 uint64_t rookAttacks[64][4096];
 uint64_t rookMasks[64];
 uint64_t rookMagics[64];
@@ -16,6 +21,7 @@ uint64_t bishopMasks[64];
 uint64_t bishopMagics[64];
 uint64_t knightAttacks[64];
 uint64_t kingAttacks[64];
+uint64_t pawnMoves[2][64]; //pawnAttacks[0] = human, pawnAttacks[1] = computer
 uint64_t pawnAttacks[2][64];
 
 Move::Move(Board& hum, Board& cpu) : human(hum), computer(cpu) { }

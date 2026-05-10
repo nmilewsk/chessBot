@@ -12,6 +12,12 @@ void printBoard(Board white, Board black);
 void configSetUp(Move &toSet);
 
 int main() {
+    bool record = false;
+    std::cout << "What is your rating? (approximates will do fine)\n";
+    std::string rating;
+    std::cin >> rating;
+    std::ofstream data("ratingData.txt", std::ios::app);
+    data << std::stoi(rating, nullptr, 10) << " ";
     bool valid = false;
     bool white = false;
     while (!valid) {
@@ -36,6 +42,10 @@ int main() {
     configSetUp(moves);
     if (white) { printBoard(human, computer); }
     else { printBoard(computer, human); }
+
+    data << "\n";
+    data.close();
+
     return 0;
 }
 
@@ -49,6 +59,21 @@ void configSetUp(Move &toSet) {
         getline(magicBishop, streamTemp);
         bishopMagics[i] = std::stoull(streamTemp, nullptr, 16);
 
+        uint64_t currentPosition = 1ULL << i;
+        uint64_t left = (currentPosition >> 1) & wrapLeftOne;
+        uint64_t right = (currentPosition << 1) & wrapRightOne;
+        uint64_t up = currentPosition << 8;
+        uint64_t down = currentPosition >> 8;
+        uint64_t diagUp = (left | right) << 8;
+        uint64_t diagDown = (left | right) >> 8;
+
+        kingAttacks[i] = left | right | up | down | diagUp | diagDown;
+        
+        
+        if (i >= 8 && i < 16) { 
+            pawnMoves[0][i] = up | (up << 8);
+            pawnAttacks[0][i] = diagUp | diagDown; 
+        }
     }
     magicRook.close();
     magicBishop.close();
