@@ -54,13 +54,34 @@ int main() {
 }
 
 void configSetUp() {
-    std::ifstream magicRook("rook.txt");
-    std::ifstream magicBishop("bishop.txt");
+    std::ifstream magicRook("magicRook.txt");
+    std::ifstream magicBishop("magicBishop.txt");
+    if (!magicRook.is_open() || !magicBishop.is_open()) {
+        throw std::runtime_error("Failed to open txt file");
+    }
     std::string streamTemp;
     for (int i = 0; i < 64; i++) { 
-        getline(magicRook, streamTemp);
+        
+        if (!getline(magicRook, streamTemp)) {
+            throw std::runtime_error("Failed to read next line from txt file");
+        }
+        while (!streamTemp.empty() && (streamTemp.back() == '\r' || streamTemp.back() == ' ')) {
+            streamTemp.pop_back();
+        }
+        if (streamTemp.empty()) {
+            throw std::runtime_error("Attempted to write empty line to array.");
+        }
         rookMagics[i] = std::stoull(streamTemp, nullptr, 16);
-        getline(magicBishop, streamTemp);
+        
+        if (!getline(magicBishop, streamTemp)) {
+            throw std::runtime_error("Failed to read next line from txt file");
+        }
+        while (!streamTemp.empty() && (streamTemp.back() == '\r' || streamTemp.back() == ' ')) {
+            streamTemp.pop_back();
+        }
+        if (streamTemp.empty()) {
+            throw std::runtime_error("Attempted to write empty line to array.");
+        }
         bishopMagics[i] = std::stoull(streamTemp, nullptr, 16);
 
         uint64_t currentPosition = 1ULL << i;
