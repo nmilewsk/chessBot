@@ -1,2 +1,2 @@
 CXX		= g++
-$(CXX) $(CXXFLAGS) -c *.cpp 
+$(CXX) $(CXXFLAGS) -c $*.cpp 
