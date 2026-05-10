@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <cstdint>
 #include "board.h"
 #include "move.h"
 
@@ -44,11 +45,10 @@ void configSetUp(Move &toSet) {
     std::string streamTemp;
     for (int i = 0; i < 64; i++) { 
         getline(magicRook, streamTemp);
-        rookMagics[i] = std::stoi(streamTemp, nullptr, 16);
-    }
-    for (int i = 0; i < 64; i++) { 
+        rookMagics[i] = std::stoull(streamTemp, nullptr, 16);
         getline(magicBishop, streamTemp);
-        bishopMagics[i] = std::stoi(streamTemp, nullptr, 16);
+        bishopMagics[i] = std::stoull(streamTemp, nullptr, 16);
+
     }
     magicRook.close();
     magicBishop.close();

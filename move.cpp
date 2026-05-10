@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <cstdint>
 #include "board.h"
 #include "move.h"
 

@@ -3,6 +3,7 @@
 #include <cctype>
 #include <string>
 #include <vector>
+#include <cstdint>
 #include "board.h"
 
 Board::Board(bool cpu){

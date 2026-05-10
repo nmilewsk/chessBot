@@ -5,6 +5,7 @@
 #include <cctype>
 #include <string>
 #include <vector>
+#include <cstdint>
 #include "board.h"
 
 extern uint64_t rookAttacks[64][4096];
