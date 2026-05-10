@@ -83,9 +83,9 @@ void configSetUp(Move &toSet) {
 
         uint64_t rook = 0;
         for (int j = row + 1; j <= 6; j++) { rook |= 1ULL << ((8*j) + column); } //up
-        for (int j = row - 1; j >= 1; j--) { rook |= 1ULL >> ((8*j) + column); } //down
+        for (int j = row - 1; j >= 1; j--) { rook |= 1ULL << ((8*j) + column); } //down
         for (int j = column + 1; j <= 6; j++) { rook |= 1ULL << ((8*row) + j); } //right
-        for (int j = column - 1; j >= 1; j--) { rook |= 1ULL >> ((8*row) + j); } //left
+        for (int j = column - 1; j >= 1; j--) { rook |= 1ULL << ((8*row) + j); } //left
         rookMasks[i] = rook;
         int rookConfigs = __builtin_popcountll(rook);
         uint64_t rookBlocks = 0;
@@ -118,16 +118,26 @@ void configSetUp(Move &toSet) {
         uint64_t bishopBlocks = 0;
         do {
             uint64_t attacks = 0;
-            for (int j = row + 1, k = column + 1; j <= 6 && k <= 6; j++, k++) { bishop |= 1ULL << ((8*j) + k); }
-            for (int j = row - 1, k = column + 1; j >= 1 && k <= 6; j--, k++) { bishop |= 1ULL << ((8*j) + k); }
-            for (int j = row + 1, k = column - 1; j <= 6 && k >= 1; j++, k--) { bishop |= 1ULL << ((8*j) + k); }
-            for (int j = row - 1, k = column - 1; j >= 1 && k >= 1; j--, k--) { bishop |= 1ULL << ((8*j) + k); }
-        bishopMasks[i] = bishop;
+            for (int j = row + 1, k = column + 1; j <= 7 && k <= 7; j++, k++) { 
+                attacks |= 1ULL << ((8*j) + k); if (bishopBlocks & (1ULL << ((8*j) + k))) break;
+            }
+            for (int j = row - 1, k = column + 1; j >= 0 && k <= 7; j--, k++) { 
+                attacks |= 1ULL << ((8*j) + k);  if (bishopBlocks & (1ULL << ((8*j) + k))) break;
+            }
+            for (int j = row + 1, k = column - 1; j <= 7 && k >= 0; j++, k--) { 
+                attacks |= 1ULL << ((8*j) + k);  if (bishopBlocks & (1ULL << ((8*j) + k))) break;
+            }
+            for (int j = row - 1, k = column - 1; j >= 0 && k >= 0; j--, k--) { 
+                attacks |= 1ULL << ((8*j) + k);  if (bishopBlocks & (1ULL << ((8*j) + k))) break;
+            }
+            int index = (bishopBlocks*bishopMagics[i]) >> (64 - bishopConfigs);
+            bishopAttacks[i][index] = attacks;
+            bishopBlocks = (bishopBlocks - bishopMasks[i]) & bishopMasks[i];
         } while (bishopBlocks != 0);
 
 
-        uint64_t twoLeft = (currentPosition >> 1) & wrapLeftTwo;
-        uint64_t twoRight = (currentPosition >> 1) & wrapRightTwo;
+        uint64_t twoLeft = (left >> 1) & wrapLeftTwo;
+        uint64_t twoRight = (right << 1) & wrapRightTwo;
         knightAttacks[i] = 
             (twoLeft << 8) | (twoLeft >> 8) | 
             (twoRight << 8) | (twoRight >> 8) | 
@@ -138,9 +148,11 @@ void configSetUp(Move &toSet) {
         pawnAttacks[1][i] = diagDown;
         if (i >= 8 && i < 16) { 
             pawnMoves[0][i] = up | (up << 8);
+            pawnMoves[1][i] = down;
         }
         else if (i >= 48 && i < 56) {
             pawnMoves[1][i] = down | (down >> 8);
+            pawnMoves[0][i] = up;
         }
         else {
             pawnMoves[0][i] = up;
