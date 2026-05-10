@@ -12,12 +12,20 @@ void printBoard(Board white, Board black);
 void configSetUp(Move &toSet);
 
 int main() {
+    
+    //Inquiries about rating for data
     bool record = false;
-    std::cout << "What is your rating? (approximates will do fine)\n";
+    std::cout << "What is your rating? If unsure, press enter to skip...\n(Approximates will do fine)\n";
     std::string rating;
-    std::cin >> rating;
     std::ofstream data("ratingData.txt", std::ios::app);
-    data << std::stoi(rating, nullptr, 10) << " ";
+    std::getline(std::cin, rating);
+    if (!rating.empty()) {
+        record = true;
+        data << std::stoi(rating, nullptr, 10) << " ";
+    }
+
+
+
     bool valid = false;
     bool white = false;
     while (!valid) {
@@ -36,10 +44,11 @@ int main() {
             std::cout << "Error reading input\n";
         }
     }
+
     Board human = {false};
     Board computer = {true};
     Move moves = {human, computer};
-    configSetUp(moves);
+    // configSetUp(moves);
     if (white) { printBoard(human, computer); }
     else { printBoard(computer, human); }
 
@@ -68,11 +77,74 @@ void configSetUp(Move &toSet) {
         uint64_t diagDown = (left | right) >> 8;
 
         kingAttacks[i] = left | right | up | down | diagUp | diagDown;
-        
-        
+
+        int row = i / 8;
+        int column = i % 8;
+
+        uint64_t rook = 0;
+        for (int j = row + 1; j <= 6; j++) { rook |= 1ULL << ((8*j) + column); } //up
+        for (int j = row - 1; j >= 1; j--) { rook |= 1ULL >> ((8*j) + column); } //down
+        for (int j = column + 1; j <= 6; j++) { rook |= 1ULL << ((8*row) + j); } //right
+        for (int j = column - 1; j >= 1; j--) { rook |= 1ULL >> ((8*row) + j); } //left
+        rookMasks[i] = rook;
+        int rookConfigs = __builtin_popcountll(rook);
+        uint64_t rookBlocks = 0;
+        do {
+            uint64_t attacks = 0;
+            for (int j = row + 1; j <= 7; j++) { 
+                attacks |= 1ULL << ((8*j) + column); if (rookBlocks & (1ULL << ((8*j) + column))) break;
+            }
+            for (int j = row - 1; j >= 0; j--) {
+                attacks |= 1ULL << ((8*j) + column); if (rookBlocks & (1ULL << ((8*j) + column))) break;
+            }
+            for (int j = column + 1; j <= 7; j++) {
+                attacks |= 1ULL << ((8*row) + j); if (rookBlocks & (1ULL << ((8*row) + j))) break;
+            }
+            for (int j = column - 1; j >= 0; j--) {
+                attacks |= 1ULL << ((8*row) + j); if (rookBlocks & (1ULL << ((8*row) + j))) break;
+            }
+            int index = (rookBlocks*rookMagics[i]) >> (64 - rookConfigs);
+            rookAttacks[i][index] = attacks;
+            rookBlocks =(rookBlocks - rookMasks[i]) & rookMasks[i];
+        } while (rookBlocks != 0);
+
+        uint64_t bishop = 0;
+        for (int j = row + 1, k = column + 1; j <= 6 && k <= 6; j++, k++) { bishop |= 1ULL << ((8*j) + k); } //UR
+        for (int j = row - 1, k = column + 1; j >= 1 && k <= 6; j--, k++) { bishop |= 1ULL << ((8*j) + k); } //DR
+        for (int j = row + 1, k = column - 1; j <= 6 && k >= 1; j++, k--) { bishop |= 1ULL << ((8*j) + k); } //UL
+        for (int j = row - 1, k = column - 1; j >= 1 && k >= 1; j--, k--) { bishop |= 1ULL << ((8*j) + k); } //DL
+        bishopMasks[i] = bishop;
+        int bishopConfigs = __builtin_popcountll(bishop);
+        uint64_t bishopBlocks = 0;
+        do {
+            uint64_t attacks = 0;
+            for (int j = row + 1, k = column + 1; j <= 6 && k <= 6; j++, k++) { bishop |= 1ULL << ((8*j) + k); }
+            for (int j = row - 1, k = column + 1; j >= 1 && k <= 6; j--, k++) { bishop |= 1ULL << ((8*j) + k); }
+            for (int j = row + 1, k = column - 1; j <= 6 && k >= 1; j++, k--) { bishop |= 1ULL << ((8*j) + k); }
+            for (int j = row - 1, k = column - 1; j >= 1 && k >= 1; j--, k--) { bishop |= 1ULL << ((8*j) + k); }
+        bishopMasks[i] = bishop;
+        } while (bishopBlocks != 0);
+
+
+        uint64_t twoLeft = (currentPosition >> 1) & wrapLeftTwo;
+        uint64_t twoRight = (currentPosition >> 1) & wrapRightTwo;
+        knightAttacks[i] = 
+            (twoLeft << 8) | (twoLeft >> 8) | 
+            (twoRight << 8) | (twoRight >> 8) | 
+            (left << 16) | (right >> 16) |
+            (left >> 16) | (right << 16);
+
+        pawnAttacks[0][i] = diagUp;
+        pawnAttacks[1][i] = diagDown;
         if (i >= 8 && i < 16) { 
             pawnMoves[0][i] = up | (up << 8);
-            pawnAttacks[0][i] = diagUp | diagDown; 
+        }
+        else if (i >= 48 && i < 56) {
+            pawnMoves[1][i] = down | (down >> 8);
+        }
+        else {
+            pawnMoves[0][i] = up;
+            pawnMoves[1][i] = down;
         }
     }
     magicRook.close();
