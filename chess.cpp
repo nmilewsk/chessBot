@@ -9,11 +9,11 @@
 #include "move.h"
 
 void printBoard(Board white, Board black);
-void configSetUp(Move &toSet);
+void configSetUp();
 
 int main() {
     
-    //Inquiries about rating for data
+    //Inquires about rating for data
     bool record = false;
     std::cout << "What is your rating? If unsure, press enter to skip...\n(Approximates will do fine)\n";
     std::string rating;
@@ -33,32 +33,27 @@ int main() {
         std::string color;
         std::cin >> color;
         std::transform(color.begin(), color.end(), color.begin(), [](unsigned char c){ return std::tolower(c); });
-        if (color == "w" || color == "white") {
-            valid = true;
-            white = true;
-        }
-        else if (color == "b" || color == "black") {
-            valid = true;
-        }
-        else {
-            std::cout << "Error reading input\n";
-        }
+        if (color == "w" || color == "white") { valid = true; white = true; }
+        else if (color == "b" || color == "black") { valid = true; }
+        else { std::cout << "Error reading input\n"; }
     }
 
     Board human = {false};
     Board computer = {true};
-    Move moves = {human, computer};
-    // configSetUp(moves);
+    Move moves;
+    configSetUp();
+    /*
     if (white) { printBoard(human, computer); }
-    else { printBoard(computer, human); }
+    else { printBoard(computer, human); } 
+    */
 
     data << "\n";
     data.close();
-
+    std::cout << "done \n";
     return 0;
 }
 
-void configSetUp(Move &toSet) {
+void configSetUp() {
     std::ifstream magicRook("rook.txt");
     std::ifstream magicBishop("bishop.txt");
     std::string streamTemp;

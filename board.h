@@ -1,23 +1,20 @@
 #ifndef BOARD_H
 #define BOARD_H
-#include <iostream>
-#include <algorithm>
-#include <cctype>
 #include <string>
 #include <cstdint>
-#include <vector>
 
 struct Board {
-    uint64_t pawns, knights, rooks, bishops, queen, king;
+    uint64_t pawns, knights, rooks, bishops, queens, king;
     bool top;
-    std::string color;
     int score;
-    int numPawns, numRooks, numKnights, numBishops, numQueens, numKings;
-    std::vector<uint64_t> pawnPositions, rookPositions, knightPositions, bishopPositions, queenPositions, kingPositions;
     
     Board(bool cpu);
     uint64_t sumPieces();
-    void setColor(std::string choice);
+    int numPawns() const;
+    int numRooks() const;
+    int numKnights() const;
+    int numBishops() const;
+    int numQueens() const;
 };
 
 #endif

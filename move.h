@@ -25,18 +25,17 @@ extern uint64_t pawnMoves[2][64];
 extern uint64_t pawnAttacks[2][64];
 
 struct Move {
-    Board human;
-    Board computer;
-    Move(Board& hum, Board& cpu);   
-   
     uint64_t tileToInt(char column, int row);
     std::string intToTile(uint64_t pos);
-    std::vector<uint64_t> pawnMoves(uint64_t pos, Board& attacker, Board& defender);
-    std::vector<uint64_t> rookMoves(uint64_t pos, Board& attacker, Board& defender);
-    std::vector<uint64_t> knightMoves(uint64_t pos, Board& attacker, Board& defender);
-    std::vector<uint64_t> bishopMoves(uint64_t pos, Board& attacker, Board& defender);
-    std::vector<uint64_t> queenMoves(uint64_t pos, Board& attacker, Board& defender);
-    std::vector<uint64_t> kingMoves(uint64_t pos, Board& attacker, Board& defender);
+
+    uint64_t pawnMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t rookMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t knightMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t bishopMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t queenMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t kingMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+
+    void doMove(std::string, Board& att, Board& def);
 
 };
 
