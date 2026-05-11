@@ -25,15 +25,16 @@ extern uint64_t pawnMoves[2][64];
 extern uint64_t pawnAttacks[2][64];
 
 struct Move {
-    uint64_t tileToInt(char column, int row);
+    uint64_t singleTileToInt(char column, int row);
     std::string intToTile(uint64_t pos);
+    std::string boardToTile(uint64_t board);
 
-    uint64_t pawnMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
-    uint64_t rookMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
-    uint64_t knightMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
-    uint64_t bishopMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
-    uint64_t queenMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
-    uint64_t kingMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t getPawnMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t getRookMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t getKnightMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t getBishopMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t getQueenMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t getKingMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
 
     void doMove(std::string, Board& att, Board& def);
 

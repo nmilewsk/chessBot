@@ -25,7 +25,7 @@ uint64_t pawnMoves[2][64]; //pawnAttacks[0] = human, pawnAttacks[1] = computer
 uint64_t pawnAttacks[2][64];
 
 
-uint64_t Move::tileToInt(char column, int row) {
+uint64_t Move::singleTileToInt(char column, int row) {
     int newColumn = column - 'a' + 1;
     int test = (8*row) - newColumn;
     uint64_t spot = 1ULL << test;
@@ -35,7 +35,7 @@ uint64_t Move::tileToInt(char column, int row) {
 std::string Move::intToTile(uint64_t pos) {
     int tileNumber = 0;
     while (true) {
-        if ((1ULL << tileNumber) == pos) { break; }
+        if ((1ULL << tileNumber) == pos || 0 == pos) { break; }
         else { tileNumber++; }
     }
     int column = tileNumber % 8;
@@ -47,27 +47,39 @@ std::string Move::intToTile(uint64_t pos) {
     return algTile;
 }
 
-uint64_t Move::pawnMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
+std::string Move::boardToTile(uint64_t board) {
+    if (board == 0) { return "none"; }
+    std::string tiles = "";
+    while (board) {
+        uint64_t leastSig = board & (-board);
+        if (!tiles.empty()) { tiles += ", "; }
+        tiles += intToTile(leastSig);
+        board &= board - 1;
+    }
+    return tiles;
+}
+
+uint64_t Move::getPawnMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
     return 0;
 }
 
-uint64_t Move::rookMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
+uint64_t Move::getRookMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
     return 0;
 }
 
-uint64_t Move::knightMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
+uint64_t Move::getKnightMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
     return 0;
 }
 
-uint64_t Move::bishopMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
+uint64_t Move::getBishopMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
     return 0;
 }
 
-uint64_t Move::queenMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
+uint64_t Move::getQueenMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
     return 0;
 }
 
-uint64_t Move::kingMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
+uint64_t Move::getKingMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
     return 0;
 }
 

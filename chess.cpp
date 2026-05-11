@@ -46,10 +46,8 @@ int main() {
     if (white) { printBoard(human, computer); }
     else { printBoard(computer, human); } 
     */
-
     data << "\n";
     data.close();
-    std::cout << "done \n";
     return 0;
 }
 
@@ -85,12 +83,12 @@ void configSetUp() {
         bishopMagics[i] = std::stoull(streamTemp, nullptr, 16);
 
         uint64_t currentPosition = 1ULL << i;
-        uint64_t left = (currentPosition >> 1) & wrapLeftOne;
-        uint64_t right = (currentPosition << 1) & wrapRightOne;
+        uint64_t left = (currentPosition >> 1) & wrapRightOne;
+        uint64_t right = (currentPosition << 1) & wrapLeftOne;
         uint64_t up = currentPosition << 8;
         uint64_t down = currentPosition >> 8;
-        uint64_t diagUp = (left | right) << 8;
-        uint64_t diagDown = (left | right) >> 8;
+        uint64_t diagUp = ((left | right) << 8);
+        uint64_t diagDown = ((left | right) >> 8);
 
         kingAttacks[i] = left | right | up | down | diagUp | diagDown;
 
@@ -152,25 +150,35 @@ void configSetUp() {
         } while (bishopBlocks != 0);
 
 
-        uint64_t twoLeft = (left >> 1) & wrapLeftTwo;
-        uint64_t twoRight = (right << 1) & wrapRightTwo;
+        uint64_t twoLeft = (left >> 1) & wrapRightTwo;
+        uint64_t twoRight = (right << 1) & wrapLeftTwo;
         knightAttacks[i] = 
             (twoLeft << 8) | (twoLeft >> 8) | 
             (twoRight << 8) | (twoRight >> 8) | 
             (left << 16) | (right >> 16) |
             (left >> 16) | (right << 16);
 
-        pawnAttacks[0][i] = diagUp;
-        pawnAttacks[1][i] = diagDown;
-        if (i >= 8 && i < 16) { 
+        if ((i >= 0 && i < 8) || (i >= 56 && i < 64)) {
+            pawnMoves[0][i] = 0;
+            pawnMoves[1][i] = 0;
+            pawnAttacks[0][i] = 0;
+            pawnAttacks[0][i] = 0;
+        }
+        else if (i >= 8 && i < 16) { 
             pawnMoves[0][i] = up | (up << 8);
             pawnMoves[1][i] = down;
+            pawnAttacks[0][i] = diagUp;
+            pawnAttacks[1][i] = diagDown;
         }
         else if (i >= 48 && i < 56) {
+            pawnAttacks[0][i] = diagUp;
+            pawnAttacks[1][i] = diagDown;
             pawnMoves[1][i] = down | (down >> 8);
             pawnMoves[0][i] = up;
         }
         else {
+            pawnAttacks[0][i] = diagUp;
+            pawnAttacks[1][i] = diagDown;
             pawnMoves[0][i] = up;
             pawnMoves[1][i] = down;
         }
