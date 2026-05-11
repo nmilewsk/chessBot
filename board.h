@@ -7,6 +7,7 @@ struct Board {
     uint64_t pawns, knights, rooks, bishops, queens, king;
     bool top;
     int score;
+    uint64_t enPassantTarget;
     
     Board(bool cpu);
     uint64_t sumPieces();

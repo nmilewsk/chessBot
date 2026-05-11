@@ -22,11 +22,7 @@ Board::Board(bool cpu){
         top = true;
     }
     score = 0;
-    numPawns();
-    numRooks();
-    numBishops();
-    numKnights();
-    numQueens();
+    enPassantTarget = 0;
 }
 
 uint64_t Board::sumPieces() { return  pawns | rooks | knights | bishops | queens | king; }

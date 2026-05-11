@@ -59,8 +59,17 @@ std::string Move::boardToTile(uint64_t board) {
     return tiles;
 }
 
-uint64_t Move::getPawnMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {
-    return 0;
+uint64_t Move::getPawnMoves(int sq, uint64_t attackBoard, uint64_t defBoard, bool bottom, uint64_t enPassant) {
+    uint64_t posMoves = 0;
+    if (bottom) {
+        posMoves |= ((pawnMoves[0][sq] & ~(attackBoard | defBoard)) | (pawnAttacks[0][sq] & defBoard));
+        if ((enPassant << 8) & pawnAttacks[0][sq]) { posMoves |= (enPassant << 8); }
+    }
+    else {
+        posMoves |= ((pawnMoves[1][sq] & ~(attackBoard | defBoard)) | (pawnAttacks[1][sq] & defBoard));
+        if ((enPassant >> 8) & pawnAttacks[0][sq]) { posMoves |= (enPassant >> 8); }
+    }
+    return posMoves;
 }
 
 uint64_t Move::getRookMoves(int sq, uint64_t attackBoard, uint64_t defBoard) {

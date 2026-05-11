@@ -41,9 +41,6 @@ int main() {
     Move moves;
     configSetUp();
     Print output = white ? Print{human, computer} : Print{computer, human};
-    output.printBoard();
-    
-    
     if (record) data << "\n";
     data.close();
     return 0;

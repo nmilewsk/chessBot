@@ -29,7 +29,7 @@ struct Move {
     std::string intToTile(uint64_t pos);
     std::string boardToTile(uint64_t board);
 
-    uint64_t getPawnMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
+    uint64_t getPawnMoves(int sq, uint64_t attackBoard, uint64_t defBoard, bool bottom, uint64_t enPassant);
     uint64_t getRookMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
     uint64_t getKnightMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
     uint64_t getBishopMoves(int sq, uint64_t attackBoard, uint64_t defBoard);
