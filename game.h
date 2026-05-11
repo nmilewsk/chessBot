@@ -5,16 +5,6 @@
 #include "board.h"
 
 
-struct Game {
-    Board human, computer;
-    Print display;
-    bool checkmate;
-    int turn;
-    Game(bool white);
-
-    void updateCheckmate();
-};
-
 struct Print {
     const Board& w;
     const Board& b;
@@ -25,6 +15,17 @@ struct Print {
 
 private:
     std::string getLabel(uint64_t sq);
+};
+
+struct Game {
+    Board human, computer;
+    Print display;
+    bool checkmate;
+    int turn;
+    Game(bool white);
+
+    
+    void updateCheckmate();
 };
 
 

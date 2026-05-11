@@ -24,6 +24,7 @@ Board::Board(bool cpu){
     score = 0;
     enPassantTarget = 0;
     check = false;
+    castleLeft, castleRight = true;
 }
 
 uint64_t Board::sumPieces() { return  pawns | rooks | knights | bishops | queens | king; }

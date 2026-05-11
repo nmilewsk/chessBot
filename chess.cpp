@@ -9,6 +9,8 @@
 #include "move.h"
 #include "game.h"
 
+#define INPUT "Enter your move:\n"
+
 void configSetUp();
 
 int main() {
@@ -41,8 +43,16 @@ int main() {
     Move moves;
     configSetUp();
     Game game(white);
+    int plies = white;
+    while (!game.checkmate) {
+        if (plies % 2 == 1) {
+            std::cout << INPUT;
+        }
+        else {
 
-    int turn = white;
+        }
+    }
+    
 
     if (record) data << "\n";
     data.close();

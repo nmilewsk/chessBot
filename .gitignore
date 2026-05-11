@@ -1,0 +1,2 @@
+# Ignore macOS debug symbol folders
+*.dSYM/

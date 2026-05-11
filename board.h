@@ -5,8 +5,7 @@
 
 struct Board {
     uint64_t pawns, knights, rooks, bishops, queens, king;
-    bool pos;
-    bool check;
+    bool pos, check, castleLeft, castleRight;
     int score;
     uint64_t enPassantTarget;
     

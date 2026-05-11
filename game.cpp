@@ -4,30 +4,39 @@
 #include "game.h"
 #include "board.h"
 
-Game::Game(bool white) : human(false), computer(true), checkmate(false), turn(0), 
-                        display(white ? human : computer, white ? computer: human) 
-{}
-
-void Game::updateCheckmate() {
-    return;
-}
 
 Print::Print(const Board& white, const Board& black) : w(white), b(black) {}
 
 void Print::printBoard(std::ostream& out) {
     std::ostringstream board;
-    board << "-----------------------------------------\n";
+    board << "  -----------------------------------------\n";
     for (int r = 7; r >= 0; r--) {
+        board << (r+1) << " ";
         for (int c = 0; c < 8; c++) {
             uint64_t square = 1ULL << (r*8 + c);
             board << "| " << getLabel(square) << " ";
         }
         board << "|\n";
     }
-    board << "-----------------------------------------\n";
+    board << "  -----------------------------------------\n";
+    board << "    a    b    c    d    e    f    g    h\n";
     out << board.str();
     return;
 }
+
+/*
+   -----------------------------------------
+ 8 | -- | -- | -- | -- | -- | -- | -- | -- |
+ 7 | -- | -- | -- | -- | -- | -- | -- | -- |
+ 6 | -- | -- | -- | -- | -- | -- | -- | -- |
+ 5 | -- | -- | -- | -- | -- | -- | -- | -- |
+ 4 | -- | -- | -- | -- | -- | -- | -- | -- |
+ 3 | -- | -- | -- | -- | -- | -- | -- | -- |
+ 2 | -- | -- | -- | -- | -- | -- | -- | -- |
+ 1 | -- | -- | -- | -- | -- | -- | -- | -- |
+   -----------------------------------------
+     a    b    c    d    e    f    g    h   
+*/
 
 std::string Print::getLabel(uint64_t sq) {
     if (w.pawns & sq) { return "WP"; }
@@ -43,4 +52,12 @@ std::string Print::getLabel(uint64_t sq) {
     if (w.king & sq) { return "WK"; }
     if (b.king & sq) { return "BK"; }
     return "--";
+}
+
+Game::Game(bool white) : human(false), computer(true), checkmate(false), turn(0), 
+                        display(white ? human : computer, white ? computer: human) 
+{}
+
+void Game::updateCheckmate() {
+    return;
 }
