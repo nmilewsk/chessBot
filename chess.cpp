@@ -7,8 +7,8 @@
 #include <cstdint>
 #include "board.h"
 #include "move.h"
+#include "print.h"
 
-void printBoard(Board white, Board black);
 void configSetUp();
 
 int main() {
@@ -23,8 +23,6 @@ int main() {
         record = true;
         data << std::stoi(rating, nullptr, 10) << " ";
     }
-
-
 
     bool valid = false;
     bool white = false;
@@ -42,11 +40,11 @@ int main() {
     Board computer = {true};
     Move moves;
     configSetUp();
-    /*
-    if (white) { printBoard(human, computer); }
-    else { printBoard(computer, human); } 
-    */
-    data << "\n";
+    Print output = white ? Print{human, computer} : Print{computer, human};
+    output.printBoard();
+    
+    
+    if (record) data << "\n";
     data.close();
     return 0;
 }
@@ -188,15 +186,6 @@ void configSetUp() {
     return;
 }
 
-void printBoard(Board white, Board black) {
-    for (int i = 63; i >= 0; i--) {
-        std::cout << "|";
-        if ((white.sumPieces() >> i) & 1) { std::cout << "W"; }
-        else if ((black.sumPieces() >> i) & 1) { std::cout << "B"; }
-        else { std::cout << "0"; }
-        if (i % 8 == 0) { std::cout << "|\n"; }
-    }
-}
 
 /*
 56  57  58  59  60  61  62  63
