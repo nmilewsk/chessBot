@@ -10,7 +10,7 @@ Board::Board(bool cpu){
         bishops = (1ULL << 2) | (1ULL << 5);
         queens = 1ULL << 3;
         king = 1ULL << 4;
-        top = false;
+        pos = false;
     }
     else {
         pawns = 0x00FF000000000000;
@@ -19,10 +19,11 @@ Board::Board(bool cpu){
         bishops = (1ULL << 61) | (1ULL << 58);
         queens = 1ULL << 59;
         king = 1ULL << 60;
-        top = true;
+        pos = true;
     }
     score = 0;
     enPassantTarget = 0;
+    check = false;
 }
 
 uint64_t Board::sumPieces() { return  pawns | rooks | knights | bishops | queens | king; }

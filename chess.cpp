@@ -7,7 +7,7 @@
 #include <cstdint>
 #include "board.h"
 #include "move.h"
-#include "print.h"
+#include "game.h"
 
 void configSetUp();
 
@@ -40,7 +40,10 @@ int main() {
     Board computer = {true};
     Move moves;
     configSetUp();
-    Print output = white ? Print{human, computer} : Print{computer, human};
+    Game game(white);
+
+    int turn = white;
+
     if (record) data << "\n";
     data.close();
     return 0;

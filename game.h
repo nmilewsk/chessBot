@@ -1,8 +1,19 @@
-#ifndef PRINT_H
-#define PRINT_H
+#ifndef GAME_H
+#define GAME_H
 #include <string>
 #include <iostream>
 #include "board.h"
+
+
+struct Game {
+    Board human, computer;
+    Print display;
+    bool checkmate;
+    int turn;
+    Game(bool white);
+
+    void updateCheckmate();
+};
 
 struct Print {
     const Board& w;
@@ -15,5 +26,6 @@ struct Print {
 private:
     std::string getLabel(uint64_t sq);
 };
+
 
 #endif

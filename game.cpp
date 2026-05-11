@@ -1,8 +1,16 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include "print.h"
+#include "game.h"
 #include "board.h"
+
+Game::Game(bool white) : human(false), computer(true), checkmate(false), turn(0), 
+                        display(white ? human : computer, white ? computer: human) 
+{}
+
+void Game::updateCheckmate() {
+    return;
+}
 
 Print::Print(const Board& white, const Board& black) : w(white), b(black) {}
 
